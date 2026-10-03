@@ -37,4 +37,5 @@ Antes de publicar, configura los mensajes de privacidad en AdMob según los paí
 
 ## Repositorio
 
-Repositorio: [github.com/Miguel-18-ciber/APRENDE-JUGANDO](https://github.com/Miguel-18-ciber/APRENDE-JUGANDO)
+Repositorio: [github.com/Miguel-18-cyber/APRENDE-JUGANDO](https://github.com/Miguel-18-cyber/APRENDE-JUGANDO)
+
