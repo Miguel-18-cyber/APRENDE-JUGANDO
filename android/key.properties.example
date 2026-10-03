@@ -1,0 +1,6 @@
+# Copy to key.properties and fill these values for your upload key.
+# Never commit key.properties or upload-keystore.jks to GitHub.
+storePassword=REPLACE_WITH_UPLOAD_KEY_PASSWORD
+keyPassword=REPLACE_WITH_UPLOAD_KEY_PASSWORD
+keyAlias=upload
+storeFile=upload-keystore.jks
