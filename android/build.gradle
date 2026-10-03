@@ -1,0 +1,21 @@
+allprojects {
+    configurations.configureEach {
+        resolutionStrategy.force 'com.google.android.gms:play-services-ads:25.5.0'
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
