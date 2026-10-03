@@ -61,10 +61,20 @@ class GameProgress extends ChangeNotifier {
       ];
 
   Future<void> load() async {
-    final prefs = await SharedPreferences.getInstance();
-    _xp = prefs.getInt('game_xp') ?? 0;
-    for (final world in worlds) {
-      _winsByWorld[world] = prefs.getInt('wins_$world') ?? 0;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      _xp = prefs.getInt('game_xp') ?? 0;
+      for (final world in worlds) {
+        _winsByWorld[world] = prefs.getInt('wins_$world') ?? 0;
+      }
+    } catch (error) {
+      // Storage can be unavailable in private browsing or restricted webviews.
+      // Keep the app playable with an in-memory profile instead of failing startup.
+      _xp = 0;
+      for (final world in worlds) {
+        _winsByWorld[world] = 0;
+      }
+      debugPrint('No se pudo leer el progreso guardado: $error');
     }
     _loaded = true;
     notifyListeners();
@@ -76,17 +86,27 @@ class GameProgress extends ChangeNotifier {
     _winsByWorld[world] = winsFor(world) + 1;
     notifyListeners();
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('game_xp', _xp);
-    await prefs.setInt('wins_$world', winsFor(world));
+    await _saveProgress(world);
   }
 
   Future<void> awardBonusXp(int amount) async {
     if (!_loaded || amount <= 0) return;
     _xp += amount;
     notifyListeners();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('game_xp', _xp);
+    await _saveProgress();
+  }
+
+  Future<void> _saveProgress([String? world]) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('game_xp', _xp);
+      if (world != null) {
+        await prefs.setInt('wins_$world', winsFor(world));
+      }
+    } catch (error) {
+      // Progress remains available for the current session if persistence fails.
+      debugPrint('No se pudo guardar el progreso; se conserva en memoria: $error');
+    }
   }
 
   static const worlds = ['Letras', 'Números', 'Memoria', 'Color Grid'];

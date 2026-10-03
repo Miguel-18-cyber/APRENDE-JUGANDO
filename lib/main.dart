@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'screens/splash_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/achievements_screen.dart';
 import 'theme/app_theme.dart';
 import 'services/game_progress.dart';
 import 'services/rewarded_ad_service.dart';
@@ -30,6 +32,13 @@ class AprendeJugandoApp extends StatelessWidget {
       title: 'Aprende Jugando',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.dark(),
+      routes: {
+        '/play': (_) => const HomeScreen(
+              playerName: 'Explorador',
+              avatar: '🦊',
+            ),
+        '/achievements': (_) => const AchievementsScreen(),
+      },
       builder: (context, child) {
         final width = MediaQuery.sizeOf(context).width;
         if (width < 520) return child ?? const SizedBox.shrink();
