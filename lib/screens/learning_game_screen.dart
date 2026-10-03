@@ -97,7 +97,7 @@ class _LearningGameScreenState extends State<LearningGameScreen> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   'Ronda ${_roundIndex + 1}',
                   style: TextStyle(fontSize: 34, fontWeight: FontWeight.w800),
                 ),
